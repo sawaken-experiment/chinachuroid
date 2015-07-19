@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Chinachuroid</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="lbl_user_password">パスワード</string>
+    <string name="lbl_login">LOGIN</string>
+    <string name="lbl_user_id">ID</string>
+    <string name="lbl_server_port">ポート番号</string>
+    <string name="lbl_server_host">ホスト名</string>
+    <string name="action_search">Search</string>
+</resources>
