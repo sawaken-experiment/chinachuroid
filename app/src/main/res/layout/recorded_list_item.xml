@@ -2,19 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/basic_frame">
 
     <TextView
         android:id="@+id/txv_rcd_ch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="150"
+        android:textSize="13sp"
+        android:textColor="#ffffff"
         android:textAppearance="@android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/txv_rcd_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="500"
+        android:textSize="13sp"
+        android:textColor="#ffffff"
+        android:textAppearance="@android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/txv_rcd_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="200"
+        android:textSize="13sp"
+        android:textColor="#ffffff"
         android:textAppearance="@android:attr/textAppearanceLarge" />
 </LinearLayout>

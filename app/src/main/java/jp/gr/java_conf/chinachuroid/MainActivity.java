@@ -1,12 +1,9 @@
 package jp.gr.java_conf.chinachuroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 
 
@@ -16,52 +13,42 @@ public class MainActivity extends AppCompatActivity {
             USER_ID = "UserId",
             USER_PASSWORD = "UserPassword";
 
-    private EditText server_host, server_port, user_id, user_password;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("Chinachuroid", "onCreate");
 
-        server_host = (EditText) findViewById(R.id.etx_server_host);
-        server_port = (EditText) findViewById(R.id.etx_server_port);
-        user_id = (EditText) findViewById(R.id.etx_user_id);
-        user_password = (EditText) findViewById(R.id.etx_user_password);
+        EditText server_host = (EditText) findViewById(R.id.etx_server_host);
+        EditText server_port = (EditText) findViewById(R.id.etx_server_port);
+        EditText user_id = (EditText) findViewById(R.id.etx_user_id);
+        EditText user_password = (EditText) findViewById(R.id.etx_user_password);
 
-        findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(getApplicationContext(), RecordedActivity.class);
-                it.putExtra(SERVER_HOST, server_host.getText().toString());
-                it.putExtra(SERVER_PORT, server_port.getText().toString());
-                it.putExtra(USER_ID, user_id.getText().toString());
-                it.putExtra(USER_PASSWORD, user_password.getText().toString());
-                startActivity(it);
-            }
+        SharedPreferences pf = getPreferences(MODE_PRIVATE);
+        server_host.setText(pf.getString(SERVER_HOST, ""));
+        server_port.setText(pf.getString(SERVER_PORT, ""));
+        user_id.setText(pf.getString(USER_ID, ""));
+        user_password.setText(pf.getString(USER_PASSWORD, ""));
+
+        findViewById(R.id.btn_login).setOnClickListener(v -> {
+            String host = server_host.getText().toString();
+            String port = server_port.getText().toString();
+            String id = user_id.getText().toString();
+            String pw = user_password.getText().toString();
+
+            SharedPreferences.Editor editor = pf.edit();
+            editor.putString(SERVER_HOST, host);
+            editor.putString(SERVER_PORT, port);
+            editor.putString(USER_ID, id);
+            editor.putString(USER_PASSWORD, pw);
+            editor.commit();
+
+            Intent it = new Intent(getApplicationContext(), RecordedActivity.class);
+            it.putExtra(SERVER_HOST, host);
+            it.putExtra(SERVER_PORT, port);
+            it.putExtra(USER_ID, id);
+            it.putExtra(USER_PASSWORD, pw);
+            startActivity(it);
+
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
