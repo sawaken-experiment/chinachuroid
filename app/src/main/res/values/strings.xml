@@ -9,4 +9,10 @@
     <string name="lbl_server_port">ポート番号</string>
     <string name="lbl_server_host">ホスト名</string>
     <string name="action_search">Search</string>
+    <string name="txv_server_protocol">プロトコル</string>
+    <string name="rbt_http">http</string>
+    <string name="rbt_https">https</string>
+    <string name="rbt_auth_no">なし</string>
+    <string name="rbt_auth_yes">あり</string>
+    <string name="txt_auth">認証</string>
 </resources>

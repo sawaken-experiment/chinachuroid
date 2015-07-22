@@ -34,7 +34,6 @@ import rx.subjects.PublishSubject;
  * Created by Owner on 2015/07/19.
  */
 public class RecordedActivity extends AppCompatActivity {
-    private RecordedListAdapter rcdls_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +52,21 @@ public class RecordedActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSortKey.setAdapter(adapter);
 
-        rcdls_adapter = new RecordedListAdapter(this, 0, new ArrayList<RecordedItem>());
+        RecordedListAdapter rcdls_adapter = new RecordedListAdapter(this, 0, new ArrayList<RecordedItem>());
         mLsview.setAdapter(rcdls_adapter);
 
-        ChinachuAPI api = setupAPI(getIntent().getStringExtra(MainActivity.SERVER_HOST),
-                getIntent().getStringExtra(MainActivity.SERVER_PORT),
-                getIntent().getStringExtra(MainActivity.USER_ID),
-                getIntent().getStringExtra(MainActivity.USER_PASSWORD));
+        ChinachuAPI api;
+        Boolean authEnable = getIntent().getStringExtra(MainActivity.SERVER_AUTH).equals("yes");
+        String protocol = getIntent().getStringExtra(MainActivity.SERVER_PROTOCOL);
+        String host = getIntent().getStringExtra(MainActivity.SERVER_HOST);
+        String port = getIntent().getStringExtra(MainActivity.SERVER_PORT);
+        String id = getIntent().getStringExtra(MainActivity.USER_ID);
+        String pw = getIntent().getStringExtra(MainActivity.USER_PASSWORD);
+        if (authEnable) {
+            api = setupAPIWithAuth(protocol, host, port, id, pw);
+        } else {
+            api = setupAPI(protocol, host, port);
+        }
 
         Observable<String> oSearchText = Observable.concat(Observable.just(""),
                 WidgetObservable.text(mSearchText).map(onTextChangeEvent -> onTextChangeEvent.text().toString()));
@@ -115,9 +122,9 @@ public class RecordedActivity extends AppCompatActivity {
         return clickSubject;
     }
 
-    public static ChinachuAPI setupAPI(String server_host, String server_port, String user_id, String user_password) {
+    public static ChinachuAPI setupAPIWithAuth(String protocol, String server_host, String server_port, String user_id, String user_password) {
         RestAdapter.Builder builder = new RestAdapter.Builder()
-                .setEndpoint("http://" + server_host + ":" + server_port + "/api")
+                .setEndpoint(protocol + "://" + server_host + ":" + server_port + "/api")
                 .setClient(new OkClient(new OkHttpClient()));
 
         builder.setRequestInterceptor(new RequestInterceptor() {
@@ -132,6 +139,12 @@ public class RecordedActivity extends AppCompatActivity {
 
         RestAdapter restAdapter = builder.build();
         return restAdapter.create(ChinachuAPI.class);
+    }
+
+    public static ChinachuAPI setupAPI(String protocol, String server_host, String server_port) {
+        return new RestAdapter.Builder()
+                .setEndpoint(protocol + "://" + server_host + ":" + server_port + "/api")
+                .setClient(new OkClient(new OkHttpClient())).build().create(ChinachuAPI.class);
     }
 
     public static List<RecordedItem> selectRecordedList(String searchText, String sortKey, List<RecordedItem> ls) {
