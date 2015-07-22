@@ -11,3 +11,8 @@ Basic認証後にREST-APIを介して録画済み一覧を取得し表示する�
 
 # Keywords
 Chinachu, RxJava, RxAndroid, Retrolambda, Retrofit
+
+# Screenshots
+![ログイン画面](https://raw.githubusercontent.com/wiki/sawaken/chinachuroid/images/login.png)
+![録画済み一覧表示](https://raw.githubusercontent.com/wiki/sawaken/chinachuroid/images/normal.png)
+![絞り込み検索](https://raw.githubusercontent.com/wiki/sawaken/chinachuroid/images/inputcase2.png)
