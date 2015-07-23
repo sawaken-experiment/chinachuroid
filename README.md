@@ -2,7 +2,8 @@
 An Android Chinachu client
 
 # Installation
-Please import the repository in your Android Studio and build.
+Please import the repository to your Android Studio and build.
+(Or simply clone the repository and build by gradle.)
 
 # Features
 現状は試作段階であり、クライアントアプリとして実用に耐える機能は持っていません。
